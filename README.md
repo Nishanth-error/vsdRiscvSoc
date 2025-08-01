@@ -1,4 +1,3 @@
-# WEEK-1 File uploaded please check that for the details
 # 📆 WEEK-1 :
 # TASK-1 :RISCV_Toolchain Setup Tasks 
 ## 🎯 Objective:
