@@ -48,7 +48,7 @@ then run the following commands to install the toolchain
 
 Add the toolchain to your PATH so you can use RISC-V commands from anywhere.
 
-```bash
+``` bash
 # Temporary (current terminal only)
 export PATH=$PWD/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin:$PATH
 
@@ -56,7 +56,22 @@ export PATH=$PWD/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-
 echo 'export PATH=$HOME/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14/bin:$PATH' >> ~/.bashrc
 source ~/.bashrc
 ```
-### 4. 
+# Task 6 — Build and Install Spike (RISC‑V ISA Simulator)
+
+## 🎯 Objective
+To build and install the Spike simulator for running RISC-V ELF binaries.
+
+## ⚙️ Steps to Install
+
+```bash
+cd $PWD/riscv_toolchain
+git clone https://github.com/riscv/riscv-isa-sim.git
+cd riscv-isa-sim
+mkdir -p build && cd build
+../configure --prefix=$PWD/../../riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14
+make -j$(nproc)
+sudo make install
+
 
 
 
