@@ -1,9 +1,6 @@
-🙌 Acknowledgements
-RISC-V GitHub Repos
-
-VSDOpen
-
-Icarus Verilog
-
-All open-source tool developers
+# 🙌 Acknowledgements
+1. RISC-V GitHub Repos
+2. VSDOpen
+3. Icarus Verilog
+4. All open-source tool developers
 
