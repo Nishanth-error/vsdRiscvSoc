@@ -1,4 +1,5 @@
-# 📆 WEEK-1 : TASK-1 :RISCV_Toolchain Setup Tasks & Uniqueness Test 
+# 📆 WEEK-1 :
+# TASK-1 :RISCV_Toolchain Setup Tasks 
 ## 🎯 Objective:
  To install RISCV_toolchain along with an ISA simulator and a Proxy kernel and some other base developer tools to develop, compile, simulate, and test RISC-V programs without real hardware.
  ## 📋 Prerequisites  
@@ -33,7 +34,8 @@ Run the following command in the terminal:
 ``` bash
 sudo apt-get install -y git vim autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex  texinfo gperf libtool patchutils bc zlib1g-dev libexpat1-dev gtkwave
 ```
-![Proof](task-1.png)
+# 📸 PROOF:
+![Proof](photos/task-1.png)
 ### 2️⃣Create a seperate workspace for RISCV-toolchain:
 Creating a seperate folder makes it easier to access or remove or update the toolchain and the others related to it and store the homepath so that we dont need to type the working directory again and again.
 Run:
@@ -52,8 +54,9 @@ tar -xvzf riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-ubuntu14.tar.gz
 ```
 1. wget-This command will download file.tar.gz from the specified URL to your current folder.
 2. tar-Extracts or compresses .tar, .tar.gz, or .tgz archive files.
-![Proof](task3-1.png)
-![Proof](task-3-3.png)
+## 📸 PROOF:
+![Proof](photos/task3-1.png)
+![Proof](photos/task-3-3.png)
 ### 4️⃣Add toolchain to the path:
 #### Command (current shell):
 Updates the path
@@ -67,6 +70,8 @@ echo 'export PATH=$HOME/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-
 ```
 Run ` source `/.bashrc` (for updating the bash file)
 #### TIP: use ` echo $PATH ` to verify whether the path is correct or not .
+## 📸Proof:
+![Proof](photos/tsk-4.png)
 ### 5️⃣Install the Device tree compiler:
 Why?: Required for certain riscv-components
 ``` bash
@@ -89,6 +94,13 @@ make -j$(nproc)
 sudo make install #installs the file & sudo gives authority
 ```
 #### Check whether the spike has been installed or not by executing this command in the terminal ` which spike ||spike -h`.
+## 📸PROOF:
+![Proof](photos/task6-2.png)
+![Proof](photos/task6-4.png)
+![Proof](photos/task6-5.png)
+![Proof](photos/task6-7.png)
+![PROOF](photos/task6-final-1.png)
+
 ### 7️⃣Installing Proxy kernel:
  
 To install the Proxy Kernel (`pk`) so that RISC-V ELF binaries can run on the Spike simulator using `spike pk ./your_program`.
@@ -105,6 +117,8 @@ make -j$(nproc)
 sudo make install
 ```
 ####  Check whether PK has been installed or not by executing this command in the terminal ` which pk`.
+![Proof](photos/task7-2.png)
+![Proof](photos/task7-3.png)
 # ❗❗❗   NOTE(Error)
 While executing the `make -j$(nproc) ` we encounter an issue stating that certain csr are missing .This arises due to the older version of the toolchain .
 So to resolve it we use another version of the Proxy kernel .
@@ -114,8 +128,9 @@ git checkout v1.0.0
 ```
 
 
-### ❗CAUTION 
-![Proof](error.jpg)
+### ❗CAUTION :
+![Proof](photos/share.png)
+![Proof](photos/error.jpg)
 ### 8️⃣ Update the path :
 To make `pk`, `spike`, and other RISC-V tools accessible from any terminal without typing full paths.
 
@@ -138,8 +153,116 @@ riscv64-unknown-elf-gcc -v
  which spike spike --version || spike -h 
  which pk
  ``` 
+ ![Proof](photos/final.png)
+ ![Proof](photos/final2.png)
  ### This confirms whether the packages are installed properly .
 
 #### NOW WE HAVE A PROPER AND EXECUTABE RISCV_TOOLCHAIN AND SPIKE(ISA SIMULATOR) ALONG WITH A PROXY KERNEL .
+
+# TASK-2 :Uniqueness test
+1. Now we are going to create a file named unique_test.c ,which is required for the uniqueness test.
+``` bash
+nano unique_test.c
+```
+And type the following code into it:
+``` bash 
+#include <stdint.h>
+#include <stdio.h>
+
+#ifndef USERNAME
+#define USERNAME "unknown_user"
+#endif
+
+#ifndef HOSTNAME
+#define HOSTNAME "unknown_host"
+#endif
+
+// 64-bit FNV-1a hash function
+static uint64_t fnv1a64(const char *s) {
+    const uint64_t FNV_OFFSET = 1469598103934665603ULL;
+    const uint64_t FNV_PRIME = 1099511628211ULL;
+    uint64_t h = FNV_OFFSET;
+    for (const unsigned char *p = (const unsigned char*)s; *p; ++p) {
+        h ^= (uint64_t)(*p);
+        h *= FNV_PRIME;
+    }
+    return h;
+}
+
+int main(void) {
+    const char *user = USERNAME;
+    const char *host = HOSTNAME;
+    char buf[256];
+    int n = snprintf(buf, sizeof(buf), "%s@%s", user, host);
+    if (n <= 0) return 1;
+
+    uint64_t uid = fnv1a64(buf);
+
+    printf("RISC-V Uniqueness Check\n");
+    printf("User: %s\n", user);
+    printf("Host: %s\n", host);
+    printf("UniqueID: 0x%016llx\n", (unsigned long long)uid);
+
+#ifdef __VERSION__
+    unsigned long long vlen = (unsigned long long)(sizeof(__VERSION__) - 1);
+    printf("GCC_VLEN: %llu\n", vlen);
+#endif
+
+    return 0;
+}
+```
+Save the file and exit.
+
+2. Then compile with injected identity and RISC‐V flags:
+``` bash
+riscv64-unknown-elf-gcc -O2 -Wall -march=rv64imac -mabi=lp64 \
+-DUSERNAME="\"$(id -un)\"" -DHOSTNAME="\"$(hostname -s)\"" \
+unique_test.c -o unique_test
+```
+3. Run on Spike with the proxy kernel
+```bash
+spike pk ./unique_test
+```
+### The expected output is : 
+RISC-V Uniqueness Check
+User: <your-username>
+Host: <your-hostname>
+UniqueID: 0x<64-bit-hex>
+GCC_VLEN: <number>
+# 📸 OUTPUT:
+
+![Proof](photos/uniq.png)
+
+## ERROR:
+❌ Incorrect Version:
+```bash
+riscv64-unknown-elf-gcc -O2 -Wall -march=rv64imac -mabi=lp64 \
+-DUSERNAME="$(id -un)" -DHOSTNAME="$(hostname -s)" \
+unique_test.c -o unique_test
+Problem: The USERNAME and HOSTNAME values are passed without quotes.
+```
+Caused compiler errors like:
+'monkey' undeclared or invalid token HP-Victus.
+
+✅ Correct Version:
+``` bash
+riscv64-unknown-elf-gcc -O2 -Wall -march=rv64imac -mabi=lp64 \
+-DUSERNAME="\"$(id -un)\"" -DHOSTNAME="\"$(hostname -s)\"" \
+unique_test.c -o unique_test
+```
+Fix: The extra \" wraps the values in quotes, making them valid C string .
+Resolves the issue
+
+ # ✅ ***RESULT***
+ 1. ☑️ Installed the RISCV-toolchain,
+ 2. ✅ Installed Spike(ISA simulator) and Proxy Kernel,
+ 3. ☑️ verified the tools,
+ 4. ✅ Ran a uniqueness test .
+
+
+
+
+
+
 
 
