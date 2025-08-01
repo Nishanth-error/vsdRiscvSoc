@@ -230,6 +230,11 @@ Host: <your-hostname>
 UniqueID: 0x<64-bit-hex>
 GCC_VLEN: <number>
 # 📸 OUTPUT:
+#### RISC-V Uniqueness Check
+#### Host: HP-Victus
+#### UniqueID: 0x569cd4904135f655
+#### GCC_VLEN: 5
+
 
 ![Proof](photos/uniq.png)
 
