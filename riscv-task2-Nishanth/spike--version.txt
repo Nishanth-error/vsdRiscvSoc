@@ -1,0 +1,6 @@
+spike --version 
+spike: unrecognized option --version
+Try 'spike --help' for more information.
+monkey@HP-Victus:~$ spike --help
+SPIKE RISC-V ISA SIMULATOR 1.1.1-DEV
+
