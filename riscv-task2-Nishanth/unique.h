@@ -21,8 +21,7 @@
 static uint64_t fnv1a64(const char *s) {
 const uint64_t OFF = 1469598103934665603ULL, PRIME = 1099511628211ULL;
 uint64_t h = OFF;
-for (const unsigned char *p=(const unsigned char*)s; *p; ++p) 
-{
+for (const unsigned char *p=(const unsigned char*)s; *p; ++p) {
 h ^= *p; h *= PRIME;
 }
 return h;
