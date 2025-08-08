@@ -164,7 +164,127 @@ Displays results of bitwise operations like AND, OR, XOR, left shift, and right 
  
 #### D :Bubble_sort:
 
+``` c
+#include "unique.h"
+void bubble(int *a,int n)
+{ for(int i=0;i<n-1;i++) 
+    for(int j=0;j<n-1-i;j++) 
+    if(a[j]>a[j+1])
+    {
+        int t=a[j];a[j]=a[j+1];a[j+1]=t;
+    } 
+}
+int main(void)
+{
+uniq_print_header("bubble_sort");
+int a[]={9,4,1,7,3,8,2,6,5}, n=sizeof(a)/sizeof(a[0]);
+bubble(a,n);
+printf("Sorted:"); for(int i=0;i<n;i++) printf(" %d",a[i]); puts("");
+return 0;
+}
+```
+Sorts the array {9,4,1,7,3,8,2,6,5} using Bubble Sort and prints the sorted array.
+
+Output : 1 2 3 4 5 6 7 8 9 
+
+### Now after creating all the files compile the programs using the prebuilt spike and the toolchain 
+### FOR factorial.c 
+### 1. Compile the code : 
+
+Using the prebuilt toolchain compile the code:
+ 
+ ``` bash
+ riscv64-unknown-elf-gcc -O0 -g -march=rv64imac -mabi=lp64 \
+-DUSERNAME="\"$U\"" -DHOSTNAME="\"$H\"" -DMACHINE_ID="\"$M\"" \
+-DBUILD_UTC="\"$T\"" -DBUILD_EPOCH=$E \
+factorial.c -o factorial
+```
+
+Compiles the C program factorial.c into a RISC-V executable (factorial) with identity variables embedded for user, host, machine ID, and build timestamp.
+
+### 2. Run the code using spike : 
+ Run the code using previously installed spike (ISA-simulator)
+
 ``` bash
+spike pk ./factorial
+```
+Runs the compiled RISC-V program factorial using the Spike ISA simulator and the Proxy Kernel (pk).
+
+## 📸OUTPUT:
+![spike output](factorial_output.png)
+
+### 3. Prodcue assembly and disassembly 
+
+Generates human-readable RISC-V assembly (.s file) and extracts only the disassembly of the main function to analyze and decode the actual machine instructions executed.
+ 
+~~~  bash
+
+riscv64-unknown-elf-gcc -O0 -S factorial.c -o factorial.s #produces assembly file(.s)
+riscv64-unknown-elf-objdump -d ./factorial | sed -n '/<main>:/,/^$/p' | tee factorial_main_objdump.txt #contains only the main function 
+
+~~~
+✅ What is factorial_main_objdump.txt:
+It is a text file containing the disassembled RISC-V machine code only for the main function of the compiled factorial program, used for manual instruction decoding and analysis.
+
+## OUTPUT:
+ 
+ This is what we get after disassemblying the function : 
+ ![assemblyop](factorial_main_asm.png)
+
+ That is the final output for the factorial.c file with assembly (only the main section and the op ).
+
+ #### Now follow the same for the rest of the program : 
+   1️⃣ Compile the code,
+
+   2️⃣ Run the code,
+   
+   3️⃣ Produce the assembly code,
+   
+   4️⃣ Extract the disassembly of the main function for analysis .
+
+# Bitops function output:
+ 
+### 1. 📷 Ouput: 
+ ![assemblyop](bitops_output.png)
+
+### 2. ⚙️ Assembly code  and the disassembled main section:
+ ![assemblyop](bitops_main_asm-1.png)
+ ![assemblyop](bitops_main_asm_2.png)
+
+ # Max_array Function Output : 
+
+ ### 1. 📷 Output:
+ 
+ ![assemblyop](max_array_output.png)
+  
+### 2. ⚙️ Assembly code and the disassembled main section : 
+
+ ![assemblyop](max_array_main_asm-1.png)
+
+  ![assemblyop](max_array_main_asm-2.png)
+
+# Bubble sort function
+  
+### 1. 📷 Ouput:
+
+ ![assemblyop](bubble_sort_output.png)
+
+ ### 2. ⚙️ Assembly code and the disassembled main section : 
+
+ ![assemblyop](bubble_sort_main_asm.png)
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
