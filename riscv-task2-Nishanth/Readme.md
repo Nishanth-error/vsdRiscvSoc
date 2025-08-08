@@ -273,7 +273,14 @@ It is a text file containing the disassembled RISC-V machine code only for the m
 
  ![assemblyop](bubble_sort_main_asm.png)
 
- 
+# 🎯Result:
+### 1. Compiled & ran RISC-V C programs using riscv64-unknown-elf-gcc and spike pk.
+
+### 2. Generated/disassembled assembly to analyze RISC-V instructions.
+
+### 3. Embedded unique IDs (ProofID/RunID) in builds for verification.
+
+
 
 
 
