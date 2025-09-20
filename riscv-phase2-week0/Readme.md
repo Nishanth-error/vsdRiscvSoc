@@ -123,6 +123,7 @@ docker run hello-world
 ### [WEEK-1](https://github.com/Nishanth-error/vsdRiscvSoc/tree/main/riscv-task1-Nishanth)
 ### [WEEK-2](https://github.com/Nishanth-error/vsdRiscvSoc/tree/main/riscv-task2-Nishanth)
 These are the previous tasks carried out by me under the guidance of VSD team.
+Use the above mentioned link to check those repos.
 
 
 
