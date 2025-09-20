@@ -120,6 +120,9 @@ docker run hello-world
 
 ## 🎯RESULT : Successfully installed  ✔️**YOSYS ✔️ iverilog ✔️GTKWAVE ✔️ngspice ✔️ magic vlsi**
 
+[WEEK-1](https://github.com/Nishanth-error/vsdRiscvSoc/tree/main/riscv-task1-Nishanth)
+[WEEK-2](https://github.com/Nishanth-error/vsdRiscvSoc/tree/main/riscv-task2-Nishanth)
+
 
 
 
